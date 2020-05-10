@@ -53,6 +53,7 @@ class Game extends React.Component {
         this.state = {
             history: [{
                 squares: Array(9).fill(null),
+                location: null // EC1 - 'location' represents the active square
             }],
             stepNumber: 0,
             xIsNext: true
@@ -70,6 +71,7 @@ class Game extends React.Component {
         this.setState({
             history: history.concat([{
                 squares: squares,
+                location: i // EC1 - Add record of the active square
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
@@ -89,8 +91,14 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
 
         const moves = history.map((step,move) => {
+
+            // EC1 - With a 3x3 grid, we can use some math to quickly determine the row and column, given 0-8 left-to-right top-to-bottom population
+            const row = Math.floor((step.location/3) + 1);
+            const column = (step.location%3) +1;
+            const coords = '(' + row + ', ' + column + ')';
+
             const desc = move ?
-                'Go to move #' + move :
+                'Move #' + move + ', ' + coords :
                 'Go to game start';
             return(
                 <li key={move}>

@@ -2,9 +2,9 @@ This repository begins from the end of the React Tic-Tac-Toe tutorial, found her
 
 https://reactjs.org/tutorial/tutorial.html
 
-Per the tutorial, here are some ideas for improvements to add to the tic-tac-toe game isted in order of increasing difficulty:
+Per the tutorial, here are some ideas for improvements to add to the tic-tac-toe game listed in order of increasing difficulty:
 
-* [ ] Display the location for each move in the format (col, row) in the move history list.
+* [X] Display the location for each move in the format (col, row) in the move history list.
 * [ ] Bold the currently selected item in the move list.
 * [ ] Rewrite Board to use two loops to make the squares instead of hardcoding them.
 * [ ] Add a toggle button that lets you sort the moves in either ascending or descending order.
