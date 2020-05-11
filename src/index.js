@@ -136,6 +136,8 @@ class Game extends React.Component {
         let status;
         if (winner) {
             status = 'Winner: ' + winner;
+        } else if (!current.squares.includes(null)) {
+            status = 'Draw: Please try again!'; // EC6 - Surprisingly easy?? If there are no empty spaces and also no winner, the game is a draw.
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
