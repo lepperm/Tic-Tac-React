@@ -1,6 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Confetti from 'react-dom-confetti';
 import './index.css';
+
+// Configuration settings for react-dom-confetti
+const config = {
+    angle: "60",
+    spread: 45,
+    startVelocity: "30",
+    elementCount: 50,
+    dragFriction: 0.1,
+    duration: 3000,
+    stagger: 0,
+    width: "10px",
+    height: "10px",
+    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+};
 
 // Square is now a simplified function component
 function Square(props) {
@@ -24,25 +39,33 @@ class Board extends React.Component {
         );
     }
 
-    render() {
+    buildColumns(i,dims) {
+        let columns = [];
+        for (let j=0; j<dims; j++) {
+            columns.push(this.renderSquare((i*dims)+j));
+        }
+        return columns;
+    }
+
+    buildRows(i,dims) {
         return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
+            <div className="board-row">{this.buildColumns(i,dims)}</div>
+        )
+    }
+
+    buildBoard(dims) {
+        let board = [];
+        for (let i=0; i<dims; i++) {
+            board.push(this.buildRows(i,dims));
+        }
+        return board;
+    }
+
+    render() {
+        // EC3 - buildBoard now uses two loops to build out our board from "dims" from the Game level
+        const dims = this.props.dims;
+        return (
+            <div>{this.buildBoard(dims)}</div>
         );
     }
 }
@@ -51,6 +74,7 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            boardDims: 3,
             history: [{
                 squares: Array(9).fill(null),
                 location: null // EC1 - 'location' represents the active square
@@ -122,7 +146,9 @@ class Game extends React.Component {
                     <Board
                         squares={current.squares}
                         onClick={(i) => this.handleClick(i)}
+                        dims={this.state.boardDims}
                     />
+                    <Confetti active={winner} config={config}/>
                 </div>
             <div className="game-info">
                 <div>{status}</div>
